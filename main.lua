@@ -1,7 +1,7 @@
 function love.load()
    image = love.graphics.newImage("cake.png")
 	love.keyboard.setKeyRepeat(true)
-	y=100
+	y=0
 	x=100
 	height=image:getHeight()/2
 	width=image:getWidth()/2
@@ -9,7 +9,7 @@ function love.load()
 	local t = f:read("*line")
 	csv = ParseCSVLine(t) 
 	time = love.timer.getTime( )
-	time = math.floor(time)
+	--time = math.floor(time)
 	i=1
 end
 function love.keypressed(key, isrepeat)
@@ -39,13 +39,13 @@ function love.update()
 	--x=x-width
 	--y=y-height
 	
-	time2 = math.floor(love.timer.getTime( )) - time
-	if time2 == tonumber(csv[i]) then
+	time2 = love.timer.getTime( ) - time
+	if time2 >= tonumber(csv[i]) then
 		if csv[i+1] ~= nil then
 			i=i+1
 		end
 		y=10*i
-		time = math.floor(love.timer.getTime( ))
+		--time = love.timer.getTime( )
 	end
 end
 function love.mousepressed()
