@@ -7,7 +7,7 @@ function love.load()
 	x=100
 	height=image:getHeight()/2
 	width=image:getWidth()/2
-	local f = assert(io.open("game.csv", "r"))
+	local f = assert(io.open("test.csv", "r"))
 	local t = f:read("*line")
 	csv = core.ParseCSVLine(t) 
 	time = love.timer.getTime( )
@@ -21,6 +21,8 @@ function love.load()
 	mouse={}
 	mouse.x=0
 	mouse.y=0
+	music = love.audio.newSource("magical.mp3")
+	music:play()
 end
 function love.keypressed(key, isrepeat)
    if key == 'up' then
@@ -63,8 +65,12 @@ function love.update()
 				i=i+1
 			else
 				level=2
+				love.audio.stop()
 			end
 			y=10*i
+			while y>200 do
+				y=y-100
+			end	
 			--time = love.timer.getTime( )
 		end
 	end
