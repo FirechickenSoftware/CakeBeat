@@ -38,4 +38,27 @@ function core.ParseCSVLine (line,sep)
 	end
 	return res
 end
+function core.toCSV (tt)
+  local s = ""
+  for _,p in pairs(tt) do
+    s = s .. "," .. escapeCSV(p)
+  end
+  return string.sub(s, 2)      -- remove first comma
+end
+-- This function will return a string filetree of all files
+-- in the folder and files in all subfolders
+function core.recursiveEnumerate(folder, fileTree)
+    local lfs = love.filesystem
+    local filesTable = lfs.getDirectoryItems(folder)
+    for i,v in ipairs(filesTable) do
+        local file = folder.."/"..v
+        if lfs.isFile(file) then
+            fileTree = fileTree.."\n"..file
+        elseif lfs.isDirectory(file) then
+            fileTree = fileTree.."\n"..file.." (DIR)"
+            fileTree = core.recursiveEnumerate(file, fileTree)
+        end
+    end
+    return fileTree
+end
 return core
